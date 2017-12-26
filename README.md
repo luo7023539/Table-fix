@@ -4,11 +4,20 @@
 ## Document
 纯展示类表格
 
+实现原理：
+
+克隆表头，动态操作top
+safari、opera实现存在闪烁问题
+
+TODO：
+
+考虑采用分离标签的形式实现
+
 #### Option
 
 | Property        | Are           | Cool  |
 | ------------- |:-------------:| -----:|
-| id      | DOM节点ID | String |
+| id      | DOM节点ID | String |
 | ifFixHead      | 是否固定表头      |   Boolean |
 | cloumn | 栏配置项      |    Object |
 
@@ -16,15 +25,15 @@
 | Property        | Are           | Cool  |
 | ------------- |:-------------:| -----:|
 | prop      | 指定数据Key | String |
-| Progress      | 指定百分条配置项      |   Object |
+| Progress      | 指定百分条配置项      |   Object |
 
 #### Progress
 | Property        | Are           | Cool  |
 | ------------- |:-------------:| -----:|
-| style      | 指定样式将会覆盖到进度条中 | Object |
+| style      | 指定样式将会覆盖到进度条中 | Object |
 
 
-## Example
+## Example
 ```html
 <table id="table">
   <thead>
@@ -79,3 +88,4 @@ table.fill(new Array(20).fill({
   }
 }))
 ```
+
