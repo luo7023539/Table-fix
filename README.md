@@ -13,6 +13,16 @@ TODO：
 
 考虑采用分离标签的形式实现
 
+## USE
+
+```bash
+npm install table-fix -S
+```
+
+```javascript
+import Table from 'table-fix'
+```
+
 #### Option
 
 | Property        | Are           | Cool  |
