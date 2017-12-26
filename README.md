@@ -25,12 +25,27 @@
 
 
 ## Example
+```html
+<table id="table">
+  <thead>
+    <tr>
+      <th>城市</th>
+      <th>目前使用人数</th>
+      <th>月初使用人数</th>
+      <th>本月使用人数增长</th>
+      <th>经纪人总数</th>
+      <th>市场渗透率</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+```
 ```javascript
 // 引入
 import Table from '../common/table';
 // 创建实例
 const table = new Table({
-  id: 'sessionReach',
+  id: 'table',
   ifFixHead: true,
   column: [
     {
