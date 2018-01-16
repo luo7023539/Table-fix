@@ -50,8 +50,10 @@ import Table from 'table-fix'
 #### Progress
 | Property        | Are           | Cool  |
 | ------------- |:-------------:| -----:|
+| type      | single ／ double | String |
 | style      | 指定样式将会覆盖到进度条中 | Object |
 
+如果为双向占比条，则采用style.posi/style.nega分开设置正向及负向占比条样式
 
 ## Example
 ```html
@@ -92,6 +94,22 @@ const table = new Table({
         style: {
           background: '#f2c46e',
           height: '20px'
+        }
+      }
+    },
+    {
+      prop: 'cntChange',
+      progress: {
+        type: 'double',
+        style: {
+          posi: {
+            background: '#df7164',
+            height: '20px'
+          },
+          nega: {
+            background: '#a5a5a5',
+            height: '20px'
+          }
         }
       }
     }
