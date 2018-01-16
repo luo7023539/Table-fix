@@ -1,6 +1,9 @@
 # Table-fix
 纯JS实现简单Table插件
 
+## TODO 
+增加打包及示例
+
 ## Document
 纯展示类表格
 
