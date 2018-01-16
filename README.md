@@ -8,6 +8,16 @@
 
 克隆表头，动态操作top
 safari、opera实现存在闪烁问题
+增加CSS3动画，防止闪烁问题
+```
+.cloneThead {
+  position: relative;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+```
 
 TODO：
 

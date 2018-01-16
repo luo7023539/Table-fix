@@ -1,5 +1,6 @@
-import progress from './progress';
-
+import progress from './progress'
+import dbProgress from './dbProgress'
+import $ from 'jquery';
 /**
  * 简单表格组件
  * HTML书写thead - tbody
@@ -15,11 +16,23 @@ import progress from './progress';
  *    }
  * }]
  */
+const throll = (func, dalay) => {
+  let timer;
+  return () => {
+    if (timer) {
+      window.clearTimeout(timer)
+    } else {
+      window.setTimeout(func, dalay)
+    }
+  }
+}
+
 export default class Table {
-  constructor({ id, column, ifFixHead }) {
+  constructor({ id, column, ifFixHead, ifSetSize = true }) {
     this._id = id
     this._column = column
     this._ifFixHead = ifFixHead
+    this._ifSetSize = ifSetSize
   }
   init() {
     this._dom = document.getElementById(this._id)
@@ -32,6 +45,7 @@ export default class Table {
       this._parent = this._dom.parentNode;
       this._cloneHeader = this._thead.cloneNode(true)
       this.setFixHead()
+      this.listenResize()
       this._parent.addEventListener('scroll', this.listenerScroll.bind(this), false);
     }
   }
@@ -47,8 +61,11 @@ export default class Table {
       let td = document.createElement('td')
       if (col.progress) {
         // 样式
-        const style = col['style']
-        progress(td, col.progress.style, prop)
+        if (col.progress.type === 'double') {
+          dbProgress(td, col.progress.style, prop)
+        } else {
+          progress(td, col.progress.style, prop)
+        }
       } else {
         td.innerText = prop
       }
@@ -61,25 +78,27 @@ export default class Table {
    * @param {*} data 
    */
   fill(data) {
-    const frame = document.createDocumentFragment()
-    data.forEach((column) => {
-      frame.appendChild(this.col(column))
-    })
-    this._tbody.appendChild(frame)
+    if (data && data.length) {
+      this._tbody.innerHTML = ''
+      const frame = document.createDocumentFragment()
+      data.forEach((column) => {
+        frame.appendChild(this.col(column))
+      })
+      this._tbody.appendChild(frame)
+    } else {
+      this._tbody.innerHTML = [
+        '<tr><td colspan="',
+        this._column.length,
+        '"',
+        '>暂无数据</td>'
+      ].join('')
+    }
   }
   /**
    * 复制表头 - 且丢入DOM当中
    */
   setFixHead() {
-    let _theadChildren = this._thead.children[0].children,
-      _cloneChildren = this._cloneHeader.children[0].children
-    let i = 0, l = _theadChildren.length
-    for (; i < l; i++) {
-      let _theadTh = _theadChildren[i],
-        _cloneTh = _cloneChildren[i];
-      _cloneTh.style.width = _theadTh.offsetWidth + 'px';
-      _cloneTh.style.height = _theadTh.offsetHeight + 'px';
-    }
+    this.setCloneHeadWidth()
     this._cloneHeader.className = 'cloneThead'
     this._cloneHeader.style.position = 'absolute';
     this._cloneHeader.style.top = 0;
@@ -106,6 +125,21 @@ export default class Table {
       if (cloneThead) {
         cloneThead.style.display = 'none';
       }
+    }
+  }
+  listenResize() {
+    window.addEventListener('resize',
+      throll(this.setCloneHeadWidth.bind(this),100))
+  }
+  setCloneHeadWidth() {
+    let _theadChildren = this._thead.children[0].children,
+      _cloneChildren = this._cloneHeader.children[0].children
+    let i = 0, l = _theadChildren.length
+    for (; i < l; i++) {
+      let _theadTh = _theadChildren[i],
+        _cloneTh = _cloneChildren[i];
+      _cloneTh.style.width = _theadTh.clientWidth + 'px';
+      _cloneTh.style.height = _theadTh.clientHeight + 'px';
     }
   }
 };
