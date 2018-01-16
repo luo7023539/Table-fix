@@ -1,6 +1,6 @@
 {
   "name": "table-fix",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "纯JS实现简单Table插件",
   "main": "index.js",
   "scripts": {
